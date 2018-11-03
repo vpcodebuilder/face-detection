@@ -55,14 +55,16 @@ namespace FaceDetection
 
         private void ProcessFrame(object sender, EventArgs e)
         {
-            // Update frame counter.
-            fps.UpdateFrameCount();
-
             // Create the inputFrame.
             Mat inputFrame = new Mat();
 
             // Get image frame from camera to inputFrame.
             capture.Retrieve(inputFrame);
+
+            if (inputFrame == null) return;
+
+            // Update frame counter.
+            fps.UpdateFrameCount();
 
             // Show the original frame.
             CvInvoke.Imshow(ORIGINAL_WINDOW_NAME, inputFrame);
