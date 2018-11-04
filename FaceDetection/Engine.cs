@@ -17,8 +17,10 @@ namespace FaceDetection
         private MCvScalar redColor = new MCvScalar(0, 0, 255);
         private MCvScalar whiteColor = new MCvScalar(255, 255, 255);
         private MCvScalar fontColor = new MCvScalar(0, 0, 0);
-        private Mat rememberFrame;
-        
+        private Mat inputFrame;
+        private Rectangle[] faces = new Rectangle[] { };
+
+
         public Engine(int captureIndex = 0)
         {
             try
@@ -40,6 +42,8 @@ namespace FaceDetection
             CvInvoke.NamedWindow(OUTPUT_WINDOW_NAME);
             this.faceDetection = faceDetection;
 
+            // Create the inputFrame.
+            inputFrame = new Mat();
             capture.Start();
             fps.Start();
 
@@ -49,45 +53,35 @@ namespace FaceDetection
                 capture.Stop();
                 fps.Stop();
                 CvInvoke.DestroyAllWindows();
+                inputFrame.Dispose();
                 break;
             }
         }
 
         private void ProcessFrame(object sender, EventArgs e)
         {
-            // Create the inputFrame.
-            Mat inputFrame = new Mat();
+            // Update frame counter.
+            fps.UpdateFrameCount();
 
             // Get image frame from camera to inputFrame.
             capture.Retrieve(inputFrame);
 
             if (inputFrame == null) return;
 
-            // Update frame counter.
-            fps.UpdateFrameCount();
-
             // Show the original frame.
             CvInvoke.Imshow(ORIGINAL_WINDOW_NAME, inputFrame);
 
-            // Increase the speed to detection. We have set the detect frame one by one skip.
-            if (fps.FrameCounter % 2 != 0)
+            // Increase the speed to detection. We have set the detect frame in some frame.
+            if (fps.FrameCounter % 5 == 0)
             {
                 // We have use face detection object to detect inputFrame and return face rectangle.
-                Rectangle[] faces = faceDetection.Detect(inputFrame);
-
-                foreach (Rectangle face in faces)
-                {
-                    // Draw the red color rectangle into inputFrame.
-                    CvInvoke.Rectangle(inputFrame, face, redColor);
-                }
-
-                // keep frame to detect.
-                rememberFrame = inputFrame;
+                faces = faceDetection.Detect(inputFrame);
             }
-            else
+
+            foreach (Rectangle face in faces)
             {
-                // if frame have no detect. Use the remember last frame.
-                inputFrame = rememberFrame;
+                // Draw the red color rectangle into inputFrame.
+                CvInvoke.Rectangle(inputFrame, face, redColor);
             }
             
             // Draw title bar.
