@@ -4,14 +4,14 @@ A simple C# face detection from EmguCV library. Using the classifier is "haarcas
 
 ## Solution
 
-Find all faces that appear in realtime viedo by fast performance technical.
+Find all faces that appear in realtime viedo stream by fast performance technical.
 * Reduce the size of frame by gaussian pyramid down to 320x240 and keep resize ratio.
-* Detect the face in odd frame and keep face output to next frame.
+* Detect the faces in some frame and keep face output to next frame.
 * Interpolate the faces result by increase size to original frame.
 
 ## Requirement
 
-1. Visual studio 2017
+1. Visual Studio 2017
 2. Nuget Emgu.CV 3.4.3.3016 and dependency ZedGraph 5.1.7
 
 ## Using
