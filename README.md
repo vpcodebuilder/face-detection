@@ -34,4 +34,4 @@ To exit program use Esc key.
 
 ## Output
 
-<img src="https://drive.google.com/uc?export=view&id=1VYLKaTIllxWdMOT95wCtLpXKKMwj8Skt">
+<img src="https://drive.google.com/uc?export=view&id=1WTfdpPqs-WuvcAAeb3m9L-bZykC130S6">
